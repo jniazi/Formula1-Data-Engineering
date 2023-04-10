@@ -1,0 +1,11 @@
+{
+	"name": "pl_link_to_databricks",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://dsformula1-account-key.vault.azure.net/"
+		}
+	}
+}
