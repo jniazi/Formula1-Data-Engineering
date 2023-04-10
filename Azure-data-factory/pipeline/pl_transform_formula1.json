@@ -1,0 +1,190 @@
+{
+	"name": "pl_transform_formula1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get Folder Details",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_formula1_raw",
+						"type": "DatasetReference",
+						"parameters": {
+							"p_window_end_date": {
+								"value": "@pipeline().parameters.p_window_end_date",
+								"type": "Expression"
+							}
+						}
+					},
+					"fieldList": [
+						"exists"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "JsonReadSettings"
+					}
+				}
+			},
+			{
+				"name": "If Folder Exists",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Get Folder Details",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('Get Folder Details').output.exists",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Trans Race Result",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/trans/1.race_results",
+								"baseParameters": {
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Trans Driver Standings",
+							"type": "DatabricksNotebook",
+							"dependsOn": [
+								{
+									"activity": "Trans Race Result",
+									"dependencyConditions": [
+										"Completed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/trans/2.driver_standing",
+								"baseParameters": {
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Trans Constructor Standings",
+							"type": "DatabricksNotebook",
+							"dependsOn": [
+								{
+									"activity": "Trans Race Result",
+									"dependencyConditions": [
+										"Completed"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/trans/3.constructor_standing",
+								"baseParameters": {
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Trans Calculated Race Result",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/trans/4.calculated_race_results",
+								"baseParameters": {
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"p_window_end_date": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-09T14:22:32Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

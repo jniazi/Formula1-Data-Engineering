@@ -1,0 +1,318 @@
+{
+	"name": "pl_ingest_formula1_data",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get Folder Details",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_formula1_raw",
+						"type": "DatasetReference",
+						"parameters": {
+							"p_window_end_date": {
+								"value": "@pipeline().parameters.p_window_end_date",
+								"type": "Expression"
+							}
+						}
+					},
+					"fieldList": [
+						"exists"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "JsonReadSettings"
+					}
+				}
+			},
+			{
+				"name": "If Folder Exists",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Get Folder Details",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('Get Folder Details').output.exists",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Ingest Circuit Files",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/ingestion/1.ingestion_circute_file",
+								"baseParameters": {
+									"p_data_source": {
+										"value": "@variables('v_data_source')",
+										"type": "Expression"
+									},
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Ingest Drivers Files",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/ingestion/4.ingestion_drivers_json",
+								"baseParameters": {
+									"p_data_source": {
+										"value": "@variables('v_data_source')",
+										"type": "Expression"
+									},
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Ingest races Files",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/ingestion/2.ingestion_races_file",
+								"baseParameters": {
+									"p_data_source": {
+										"value": "@variables('v_data_source')",
+										"type": "Expression"
+									},
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Ingest constructors Files",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/ingestion/3.ingestion_constructors_json",
+								"baseParameters": {
+									"p_data_source": {
+										"value": "@variables('v_data_source')",
+										"type": "Expression"
+									},
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Ingest results Files",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/ingestion/5.ingestion_results_json",
+								"baseParameters": {
+									"p_data_source": {
+										"value": "@variables('v_data_source')",
+										"type": "Expression"
+									},
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Ingest Pitstops Files",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/ingestion/6.ingestion_pitstops_json",
+								"baseParameters": {
+									"p_data_source": {
+										"value": "@variables('v_data_source')",
+										"type": "Expression"
+									},
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Ingest Laptimes Files",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/ingestion/7.ingestion_lap_times_multifile_csvs",
+								"baseParameters": {
+									"p_data_source": {
+										"value": "@variables('v_data_source')",
+										"type": "Expression"
+									},
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						},
+						{
+							"name": "Ingest Qualifying Files",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/Formula1/ingestion/8.ingestion_qualifying_multi_json",
+								"baseParameters": {
+									"p_data_source": {
+										"value": "@variables('v_data_source')",
+										"type": "Expression"
+									},
+									"p_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.p_window_end_date, 'yyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"p_window_end_date": {
+				"type": "string"
+			}
+		},
+		"variables": {
+			"v_data_source": {
+				"type": "String",
+				"defaultValue": "Ergast"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-04-09T14:22:32Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

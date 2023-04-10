@@ -1,0 +1,9 @@
+{
+	"name": "adf-decourse",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "63e268bc-6c01-4181-b770-da49e74eca27",
+		"tenantId": "5262e7b0-d69a-48ae-90f2-caece19075a3"
+	}
+}
