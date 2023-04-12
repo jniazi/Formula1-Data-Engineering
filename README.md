@@ -19,9 +19,11 @@ This architecture has three stages.
 ![dominant teams](https://user-images.githubusercontent.com/51984649/231537480-3d6fb82c-bcf2-41dc-a6e2-2c933c5c75b7.PNG)
 
 #### Features and tools
-•	Leveraged Azure Databricks to ingest, process, and analyze the data using Python and SQL notebooks.
-•	Used Databricks Delta Lake to store the data into Azure Blob container
-•	Implemented incremental load to ensure that the data is up-to-date.
-•	Used Azure Data Factory to create the data pipeline.
-•	Connected Power BI to Databricks to create interactive reports
-•	Used GitHub for version control and collaboration
+<ul>
+  <li>Leveraged Azure Databricks to ingest, process, and analyze the data using Python and SQL notebooks.</li>
+  <li>Used Databricks Delta Lake to store the data into Azure Blob container</li>
+  <li>Implemented incremental load to ensure that the data is up-to-date.</li>
+  <li>Used Azure Data Factory to create the data pipeline.</li>
+  <li>Connected Power BI to Databricks to create interactive reports</li>
+  <li>Used GitHub for version control and collaboration</li>
+ <ul>
