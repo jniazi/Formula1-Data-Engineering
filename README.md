@@ -8,7 +8,7 @@ The dataset consists of data for the <a href='https://en.wikipedia.org/wiki/Form
 
 ![architecture](https://user-images.githubusercontent.com/51984649/231533779-744b1d92-8991-42f5-8461-0f83c54ebb76.PNG)
 
-This architecture has three stages and I leveraged Azure Databricks to implement it.
+This architecture has three stages.
 <ul>
   <li>Data ingestion: in this stage the raw data is ingested into the delta lake and stored into raw layer.</li>
   <li>Data transformation: in this stage, the data is cleaned and processed in a way that can be used for analysis.</li>
@@ -17,3 +17,11 @@ This architecture has three stages and I leveraged Azure Databricks to implement
 
 ![dominant drivers](https://user-images.githubusercontent.com/51984649/231537453-14870cec-32ef-4f72-8628-299ef98d88be.PNG)
 ![dominant teams](https://user-images.githubusercontent.com/51984649/231537480-3d6fb82c-bcf2-41dc-a6e2-2c933c5c75b7.PNG)
+
+#### Features and tools
+•	Leveraged Azure Databricks to ingest, process, and analyze the data using Python and SQL notebooks.
+•	Used Databricks Delta Lake to store the data into Azure Blob container
+•	Implemented incremental load to ensure that the data is up-to-date.
+•	Used Azure Data Factory to create the data pipeline.
+•	Connected Power BI to Databricks to create interactive reports
+•	Used GitHub for version control and collaboration
