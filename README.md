@@ -11,6 +11,9 @@ The dataset consists of data for the <a href='https://en.wikipedia.org/wiki/Form
 This architecture has three stages and I leveraged Azure Databricks to implement it.
 <ul>
   <li>Data ingestion: in this stage the raw data is ingested into the delta lake and stored into raw layer.</li>
-  <li></li>
-  <li></li>
+  <li>Data transformation: in this stage, the data is cleaned and processed in a way that can be used for analysis.</li>
+  <li>Analysis: in this stage, the data is analyzed and some visualizations like below is plotted.</li>
 </ul>
+
+![dominant drivers](https://user-images.githubusercontent.com/51984649/231537453-14870cec-32ef-4f72-8628-299ef98d88be.PNG)
+![dominant teams](https://user-images.githubusercontent.com/51984649/231537480-3d6fb82c-bcf2-41dc-a6e2-2c933c5c75b7.PNG)
