@@ -10,20 +10,23 @@ The dataset consists of data for the <a href='https://en.wikipedia.org/wiki/Form
 
 This architecture has three stages.
 <ul>
-  <li>Data ingestion: in this stage the raw data is ingested into the delta lake and stored into raw layer.</li>
-  <li>Data transformation: in this stage, the data is cleaned and processed in a way that can be used for analysis.</li>
-  <li>Analysis: in this stage, the data is analyzed and some visualizations like below is plotted.</li>
+  <li><b>Data ingestion</b>: in this stage, the raw data is ingested into the delta lake and stored in the raw layer.</li>
+  <li><b>Data transformation</b>: in this stage, the data is cleaned and processed in a way that can be used for analysis.</li>
+  <li><b>Analysis</b>: in this stage, the data is analyzed.</li>
 </ul>
 
+### Implementation
+For the implementation of this solution, Azure Databricks, Data Factory, Storage services, and GitHub are used as follows:
+ <ul>
+  <li>Leveraged Azure Databricks to ingest, process, and analyze the data using Python and SQL notebooks.</li>
+  <li>Used Databricks Delta Lake to store the data in the Azure Blob container</li>
+  <li>Implemented incremental load to ensure that the data was up-to-date.</li>
+  <li>Used Azure Data Factory to create the data pipeline.</li>
+  <li>Connected Power BI to Databricks to create interactive reports.</li>
+  <li>Used GitHub for version control and collaboration</li>
+ <ul>
+
+### Some Visualizations of the Data
 ![dominant drivers](https://user-images.githubusercontent.com/51984649/231537453-14870cec-32ef-4f72-8628-299ef98d88be.PNG)
 ![dominant teams](https://user-images.githubusercontent.com/51984649/231537480-3d6fb82c-bcf2-41dc-a6e2-2c933c5c75b7.PNG)
 
-#### Features and tools
-<ul>
-  <li>Leveraged Azure Databricks to ingest, process, and analyze the data using Python and SQL notebooks.</li>
-  <li>Used Databricks Delta Lake to store the data into Azure Blob container</li>
-  <li>Implemented incremental load to ensure that the data is up-to-date.</li>
-  <li>Used Azure Data Factory to create the data pipeline.</li>
-  <li>Connected Power BI to Databricks to create interactive reports</li>
-  <li>Used GitHub for version control and collaboration</li>
- <ul>
