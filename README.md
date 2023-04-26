@@ -19,9 +19,9 @@ This architecture has three stages.
 For the implementation of this solution, Azure Databricks, Data Factory, Storage services, and GitHub are used as follows:
  <ul>
   <li>Leveraged Azure Databricks to ingest, process, and analyze the data using Python and SQL notebooks.</li>
-  <li>Used Databricks Delta Lake to store the data in the Azure Blob container</li>
+  <li>Used Azure Data Factory to create, schedule and manage data pipelines</li>
+  <li>Used Azure Delta Lake to store the data</li>
   <li>Implemented incremental load to ensure that the data was up-to-date.</li>
-  <li>Used Azure Data Factory to create the data pipeline.</li>
   <li>Connected Power BI to Databricks to create interactive reports.</li>
   <li>Used GitHub for version control and collaboration</li>
  <ul>
